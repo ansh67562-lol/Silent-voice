@@ -1,4 +1,4 @@
-# 🤟 Silent Voice
+# Silent Voice
 
 [![Python](https://img.shields.io/badge/Python-3.9%2B-blue)](https://www.python.org/)
 [![OpenCV](https://img.shields.io/badge/UI-OpenCV-5C3EE8)](https://opencv.org/)
