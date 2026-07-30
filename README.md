@@ -3,7 +3,7 @@
 [![Python](https://img.shields.io/badge/Python-3.9%2B-blue)](https://www.python.org/)
 [![OpenCV](https://img.shields.io/badge/UI-OpenCV-5C3EE8)](https://opencv.org/)
 [![MediaPipe](https://img.shields.io/badge/CV-MediaPipe-00b4d8)](https://google.github.io/mediapipe/)
-[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
+[![License: All Rights Reserved](https://img.shields.io/badge/License-All%20Rights%20Reserved-lightgrey.svg)](LICENSE)
 [![Offline](https://img.shields.io/badge/Runs-100%25%20Offline-success)](#project-overview)
 
 > A real-time, fully offline application that translates static ASL sign
@@ -282,4 +282,6 @@ see [CONTRIBUTING.md](CONTRIBUTING.md) for setup instructions and PR guidelines.
 
 ## License
 
-Released under the [MIT License](LICENSE).
+All rights reserved — see [LICENSE](LICENSE). This code is not open source;
+no permission is granted to copy, modify, or redistribute it without the
+author's written consent.

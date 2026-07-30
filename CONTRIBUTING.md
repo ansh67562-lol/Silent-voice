@@ -46,3 +46,10 @@ clearly pay for themselves.
 If you bring in ideas or code patterns from another open-source project,
 credit it in your PR description and in a code comment, the way the
 existing codebase credits its inspirations in the README.
+
+## A note on the license
+
+This project is licensed All Rights Reserved (see [LICENSE](LICENSE)), not
+under an open-source license. Issues and PR suggestions are still welcome,
+but by submitting one you're offering it for inclusion in this project
+specifically, not releasing it under an open license yourself.
