@@ -27,7 +27,7 @@ pip install -r requirements.txt
 
 ## Before opening a PR
 
-1. Run the app locally (`streamlit run app.py`) and confirm your change
+1. Run the app locally (`python predict_live.py`) and confirm your change
    doesn't break the live prediction loop.
 2. If you touched `train_model.py` or the feature extraction logic in
    `predict_live.py`/`collect_data.py`, retrain the model and report the

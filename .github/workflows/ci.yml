@@ -23,4 +23,4 @@ jobs:
           pip install -r requirements.txt
 
       - name: Byte-compile check (catches syntax errors)
-        run: python -m py_compile app.py predict_live.py train_model.py collect_data.py
+        run: python -m py_compile predict_live.py train_model.py collect_data.py

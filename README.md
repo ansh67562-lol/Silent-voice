@@ -1,14 +1,14 @@
 # 🤟 Silent Voice
 
 [![Python](https://img.shields.io/badge/Python-3.9%2B-blue)](https://www.python.org/)
-[![Streamlit](https://img.shields.io/badge/UI-Streamlit-ff4b4b)](https://streamlit.io/)
+[![OpenCV](https://img.shields.io/badge/UI-OpenCV-5C3EE8)](https://opencv.org/)
 [![MediaPipe](https://img.shields.io/badge/CV-MediaPipe-00b4d8)](https://google.github.io/mediapipe/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 [![Offline](https://img.shields.io/badge/Runs-100%25%20Offline-success)](#project-overview)
 
 > A real-time, fully offline application that translates static ASL sign
 > language gestures (A–Z alphabet + 15 common word signs) into text and
-> optionally reads it aloud — powered by MediaPipe, scikit-learn, and Streamlit.
+> optionally reads it aloud — powered by MediaPipe, scikit-learn, and OpenCV.
 
 ---
 
@@ -20,8 +20,7 @@
 4. [Step-by-Step Usage](#step-by-step-usage)
    - [Step 1 — Collect Training Data](#step-1--collect-training-data)
    - [Step 2 — Train the Model](#step-2--train-the-model)
-   - [Step 3 — Run Live Inference (standalone)](#step-3--run-live-inference-standalone)
-   - [Step 4 — Launch the Streamlit App](#step-4--launch-the-streamlit-app)
+   - [Step 3 — Run Live Inference](#step-3--run-live-inference)
 5. [Project Structure](#project-structure)
 6. [Key Design Decisions](#key-design-decisions)
 7. [Troubleshooting](#troubleshooting)
@@ -165,7 +164,7 @@ The script:
 
 ---
 
-### Step 3 — Run Live Inference (standalone)
+### Step 3 — Run Live Inference
 
 ```bash
 python predict_live.py
@@ -187,32 +186,13 @@ Opens an OpenCV window with:
 
 ---
 
-### Step 4 — Launch the Streamlit App
-
-```bash
-streamlit run app.py
-```
-
-Opens in your default browser at `http://localhost:8501`.
-
-**UI walkthrough:**
-1. Click **▶ Start Camera** in the main panel.
-2. Show your hand sign to the webcam — the skeleton and predicted sign appear.
-3. Hold a stable sign for ~1 second; it appears in the **Sentence** box.
-4. Click **🔊 Speak** to hear the sentence read aloud.
-5. Click **🗑️ Clear** to reset, or **⌫ Delete Last** to remove the last character.
-6. Use the **sidebar** to adjust detection confidence, buffer size, and cooldown.
-
----
-
 ## Project Structure
 
 ```
 Silent-voice---sign-language-translator/
 ├── collect_data.py       # FR7 — webcam data collection (41 classes)
 ├── train_model.py        # FR8 — Random Forest training + evaluation
-├── predict_live.py       # FR1–FR6 — inference engine, SentenceBuffer, TTS
-├── app.py                # Streamlit UI wrapping predict_live
+├── predict_live.py       # FR1–FR6 — inference engine, SentenceBuffer, TTS, OpenCV UI
 ├── hand_landmarker.task   # MediaPipe hand-landmark model (bundled)
 ├── data/
 │   ├── landmarks.csv         # Created by collect_data.py
@@ -248,14 +228,6 @@ uses a **rolling majority-vote window** (default: 15 frames):
   hand is held still.
 - The window is cleared after each commit, enforcing deliberate re-signing.
 
-### Streamlit Live Feed
-
-The live webcam feed is rendered inside Streamlit without extra dependencies
-(`streamlit-webrtc`, `av`) by running a **background daemon thread** that
-continuously captures frames and stores them in a thread-safe shared dict.
-The Streamlit script reads from this dict on every re-run and calls
-`st.rerun()` after a short sleep to produce a ~14 fps UI refresh.
-
 ---
 
 ## Troubleshooting
@@ -267,7 +239,6 @@ The Streamlit script reads from this dict on every re-run and calls
 | Camera not found | Try `--camera 1` (or `2`) in collect/predict scripts |
 | pyttsx3 silent on Linux | Install `espeak`: `sudo apt-get install espeak` |
 | Low accuracy | Collect more samples; vary lighting and angles |
-| App opens but no video | Click **▶ Start Camera** in the Streamlit UI |
 
 ---
 
@@ -296,8 +267,6 @@ studied for implementation patterns during development:
   Forest ASL alphabet recognition approach
 - [CodingSamrat/Sign-Language-Recognition](https://github.com/CodingSamrat/Sign-Language-Recognition) —
   data-collection and keypoint-dataset preprocessing pattern
-- [hamdi3/StreamSign](https://github.com/hamdi3/StreamSign) — Streamlit UI
-  layout ideas (custom CSS header, centered title, column layout)
 
 No code from these repositories is vendored in this project; they're
 credited here for the ideas they contributed.

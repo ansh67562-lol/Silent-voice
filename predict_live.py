@@ -580,7 +580,7 @@ def speak_text(text: str) -> None:
     On Windows, pyttsx3 uses the COM SAPI5 interface which requires the
     calling thread to be the process main thread.  Running in a subprocess
     guarantees a fresh main thread, avoiding the silent-failure that occurs
-    when pyttsx3 is called from a Streamlit daemon thread.
+    when pyttsx3 is called from a background/daemon thread.
 
     Falls back to PowerShell's built-in SAPI5 speech synthesizer if the
     subprocess approach fails for any reason.
@@ -638,7 +638,7 @@ def speak_text_async(text: str) -> None:
 
     Spawns a daemon thread so the caller is never blocked during TTS playback.
     speak_text() itself uses a subprocess internally, so there are no
-    COM/main-thread issues even when called from Streamlit's rerun loop.
+    COM/main-thread issues even when called from a background thread.
     """
     t = threading.Thread(target=speak_text, args=(text,), daemon=True)
     t.start()
