@@ -165,6 +165,7 @@ The script:
 ---
 
 ### Step 3 — Run Live Inference
+ image.png
 
 ```bash
 python predict_live.py
