@@ -10,6 +10,10 @@
 > language gestures (A–Z alphabet + 15 common word signs) into text and
 > optionally reads it aloud — powered by MediaPipe, scikit-learn, and OpenCV.
 
+<p align="center">
+  <img src="assets/silent-voice-ui.png" alt="Silent Voice live recognition window with the sentence bar, sign readout, shortcut hints, and hand landmark overlay labelled" width="900">
+</p>
+
 ---
 
 ## Table of Contents
@@ -67,8 +71,9 @@
 ### Installation
 
 ```bash
-# 1. Clone or download the project
-cd SV
+# 1. Clone the project
+git clone https://github.com/ansh67562-lol/Silent-voice.git
+cd Silent-voice
 
 # 2. (Recommended) Create a virtual environment
 python -m venv .venv
@@ -165,24 +170,32 @@ The script:
 ---
 
 ### Step 3 — Run Live Inference
- image.png
 
 ```bash
 python predict_live.py
 ```
 
-Opens an OpenCV window with:
-- Live hand skeleton overlay
-- Predicted sign name + confidence at the bottom
-- Accumulated sentence at the top
+Opens an OpenCV window (see the screenshot at the top) with:
+- A **sentence bar** showing the text built so far
+- A **sign readout** with the current prediction and a confidence bar
+- **Shortcut hints** for the key controls
+- A live **landmark overlay** of the 21 hand points
+
+The app starts in **Manual mode**: hold a sign, then press `TAB` or `R` to add it to the sentence. Press `M` to switch to **Auto detect**, where a sign is added once the prediction is stable (see [Prediction Stability Buffer](#prediction-stability-buffer)).
 
 **Key bindings:**
 
 | Key | Action |
 |-----|--------|
-| `SPACE` | Speak current sentence (offline TTS) |
-| `D` | Delete last character |
-| `C` | Clear entire sentence |
+| `TAB` / `R` | Register the currently detected sign (Manual mode) |
+| `M` | Toggle Manual / Auto detect mode |
+| `SPACE` | Insert a word space |
+| `ENTER` | Speak the full sentence aloud (offline TTS) |
+| `T` | Toggle auto-speak on / off |
+| `BACKSPACE` / `D` | Erase the last letter |
+| `C` | Clear the whole sentence |
+| `1`–`9`, `0` | Insert a shortcut word (I / you / the / is / a / and / to / my / what / please) |
+| `H` | Show / hide the sign cheatsheet window |
 | `Q` / `ESC` | Quit |
 
 ---
@@ -190,7 +203,7 @@ Opens an OpenCV window with:
 ## Project Structure
 
 ```
-Silent-voice---sign-language-translator/
+Silent-voice/
 ├── collect_data.py       # FR7 — webcam data collection (41 classes)
 ├── train_model.py        # FR8 — Random Forest training + evaluation
 ├── predict_live.py       # FR1–FR6 — inference engine, SentenceBuffer, TTS, OpenCV UI
@@ -222,10 +235,10 @@ Random Forests are scale-invariant, making StandardScaler unnecessary.
 ### Prediction Stability Buffer
 
 Raw frame-by-frame predictions are noisy.  `predict_live.SentenceBuffer`
-uses a **rolling majority-vote window** (default: 15 frames):
+uses a **rolling majority-vote window** (default: 10 frames):
 
-- A sign is committed only when **≥ 80% of the window** agrees on a label.
-- A **2-second cooldown** prevents the same sign from repeating while the
+- A sign is committed only when **≥ 75% of the window** agrees on a label and the model's confidence is at least 40%.
+- A **1.5-second cooldown** prevents the same sign from repeating while the
   hand is held still.
 - The window is cleared after each commit, enforcing deliberate re-signing.
 
